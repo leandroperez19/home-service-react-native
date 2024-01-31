@@ -3,6 +3,8 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import Login from "./App/Screens/LoginScreen/Login";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
+import { NavigationContainer } from "@react-navigation/native";
+import TabNavigation from "./App/Navigations/TabNavigation";
 
 const tokenCache = {
   async getToken(key) {
@@ -27,7 +29,9 @@ export default function App() {
     <ClerkProvider publishableKey="pk_test_aW5ub2NlbnQtc3dpbmUtMzMuY2xlcmsuYWNjb3VudHMuZGV2JA">
       <SafeAreaView style={styles.container}>
         <SignedIn>
-          <Text>hola</Text>
+          <NavigationContainer>
+            <TabNavigation />
+          </NavigationContainer>
         </SignedIn>
         <SignedOut>
           <Login />
