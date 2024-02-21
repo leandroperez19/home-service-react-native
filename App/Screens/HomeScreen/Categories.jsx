@@ -7,7 +7,10 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function Categories() {
   const [categories, setCategories] = useState();
+  const [maxCategories, setMaxCategories] = useState(3);
   const navigation = useNavigation();
+
+  const setViewAll = () => setMaxCategories(maxCategories === 3 ? 12 : 3);
 
   const getCategory = () => {
     getCategories().then((resp) => {
@@ -21,11 +24,12 @@ export default function Categories() {
 
   return (
     <View style={{marginTop: 10}}>
-      <Heading text={"Categories"} isViewAll/>
+      <Heading text={"Categories"} isViewAll viewAllFunc={setViewAll}/>
       <FlatList
         data={categories}
         numColumns={4}
-        renderItem={({ item, index }) => index <= 3 && (
+        columnWrapperStyle={{justifyContent: 'space-between'}}
+        renderItem={({ item, index }) => index <= maxCategories && (
             <TouchableOpacity onPress={() => navigation.push('business-list', {category: item.name})} style={styles.container}>
                 <View style={styles.iconContainer}>
                     <Image source={{uri: item?.icon?.url}} style={{width: 30, height: 30}}/>
@@ -40,7 +44,6 @@ export default function Categories() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: 'center'
     },
     iconContainer: {
